@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Bibliothèque de l'Ambitieux</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a08;
+    --paper: #f5f0e8;
+    --gold: #c9a84c;
+    --rust: #b5451b;
+    --sage: #3d5a47;
+    --cream: #ede8d8;
+    --light-gold: #f0e4b8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Crimson Pro', serif;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAVBAR */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    background: rgba(10,10,8,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 48px;
+  }
+
+  .navbar-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: 0.2rem;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .navbar-links::-webkit-scrollbar { display: none; }
+
+  .navbar-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.55);
+    text-decoration: none;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .navbar-links a:hover {
+    color: var(--gold);
+    border-color: rgba(201,168,76,0.4);
+  }
+
+  .navbar-links a.active {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* BACK TO TOP */
+  .back-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 42px;
+    height: 42px;
+    background: var(--ink);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 998;
+    text-decoration: none;
+  }
+
+  .back-top.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .back-top:hover { background: var(--gold); color: var(--ink); }
+
+  body { padding-top: 48px; }
+
+  @media (max-width: 768px) {
+    .navbar-brand { display: none; }
+    .navbar { padding: 0 0.5rem; }
+  }
+
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 3px double var(--ink);
+    padding: 2rem 4rem 1.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .issue-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    position: absolute;
+    left: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  .masthead {
+    flex: 1;
+    text-align: center;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    color: var(--ink);
+  }
+
+  .masthead .tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    color: var(--sage);
+  }
+
+  .header-rule {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.4rem 4rem;
+    border-bottom: 1px solid var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  /* INTRO */
+  .intro {
+    padding: 3rem 4rem 2rem;
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .intro p {
+    font-size: 1.25rem;
+    font-style: italic;
+    color: #333;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .intro .drop-cap::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    float: left;
+    line-height: 0.75;
+    margin-right: 0.1em;
+    margin-top: 0.05em;
+    color: var(--gold);
+  }
+
+  /* SECTION HEADERS */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 4rem 1rem;
+    border-top: 1px solid rgba(10,10,8,0.2);
+  }
+
+  .section-title::before, .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.3;
+  }
+
+  .section-title h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 400;
+    white-space: nowrap;
+    color: var(--rust);
+  }
+
+  /* GRID LAYOUTS */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 0 4rem;
+    border-top: 1px solid rgba(10,10,8,0.15);
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0 4rem;
+    border-top: 1px solid rgba(10,10,8,0.15);
+  }
+
+  /* CARDS */
+  .card {
+    padding: 2rem 2rem;
+    border-right: 1px solid rgba(10,10,8,0.15);
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:last-child { border-right: none; }
+
+  .card::before {
+    content: attr(data-num);
+    position: absolute;
+    top: 1rem; right: 1.2rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(201,168,76,0.12);
+    line-height: 1;
+  }
+
+  .card:hover {
+    background: var(--light-gold);
+  }
+
+  .card .category {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.5rem;
+  }
+
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+
+  .card .author {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+
+  .card p {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .card .quote {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--gold);
+    font-size: 0.9rem;
+    color: var(--sage);
+    font-style: italic;
+  }
+
+  /* PODCAST CARDS - horizontal */
+  .podcast-card {
+    padding: 1.8rem 2rem;
+    border-bottom: 1px solid rgba(10,10,8,0.15);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .podcast-card:hover { background: var(--light-gold); }
+
+  .podcast-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    font-style: italic;
+    color: rgba(201,168,76,0.4);
+    line-height: 1;
+    min-width: 3rem;
+  }
+
+  .podcast-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+  }
+
+  .podcast-info p {
+    font-size: 0.9rem;
+    color: #555;
+    font-style: italic;
+  }
+
+  .podcast-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--sage);
+    color: var(--sage);
+    white-space: nowrap;
+  }
+
+  /* PRINCIPLE BOX */
+  .principle-box {
+    margin: 2rem 4rem;
+    border: 2px solid var(--ink);
+    padding: 2.5rem 3rem;
+    background: var(--ink);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .principle-box::before {
+    content: '❝';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 15rem;
+    line-height: 1;
+    top: -2rem;
+    left: -0.5rem;
+    color: rgba(201,168,76,0.08);
+    pointer-events: none;
+  }
+
+  .principle-box h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .principle-box blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--paper);
+    position: relative;
+    z-index: 1;
+  }
+
+  .principle-box cite {
+    display: block;
+    margin-top: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 3rem;
+    border-top: 3px double var(--ink);
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(10,10,8,0.4);
+  }
+
+  /* ANIMATIONS */
+  .card, .podcast-card {
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.1s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+  .card:nth-child(4) { animation-delay: 0.2s; }
+  .card:nth-child(5) { animation-delay: 0.25s; }
+  .card:nth-child(6) { animation-delay: 0.3s; }
+
+  /* COLUMN DIVIDER */
+  .divider-line {
+    height: 1px;
+    background: var(--ink);
+    margin: 0 4rem;
+    opacity: 0.15;
+  }
+
+  /* YOUTUBE LINK CARDS */
+  .yt-card {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.6rem 1rem;
+    border-bottom: 1px solid rgba(10,10,8,0.15);
+    text-decoration: none;
+    color: var(--ink);
+    transition: background 0.25s;
+  }
+
+  .yt-card:hover { background: var(--light-gold); }
+
+  .yt-play {
+    width: 3rem;
+    height: 3rem;
+    background: #ff0000;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transition: transform 0.2s;
+  }
+
+  .yt-card:hover .yt-play { transform: scale(1.08); }
+
+  .yt-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.3rem;
+  }
+
+  .yt-meta span { color: var(--sage); }
+
+  .yt-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+  }
+
+  .yt-info p {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .yt-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage);
+    white-space: nowrap;
+    border: 1px solid var(--sage);
+    padding: 0.4rem 0.8rem;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .yt-card:hover .yt-cta {
+    background: var(--sage);
+    color: var(--paper);
+  }
+
+  /* VIDEO SECTION */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 0 4rem;
+    border-top: 1px solid rgba(10,10,8,0.15);
+  }
+
+  .video-item {
+    padding: 1.8rem;
+    border-right: 1px solid rgba(10,10,8,0.15);
+    transition: background 0.3s;
+  }
+
+  .video-item:last-child { border-right: none; }
+  .video-item:hover { background: var(--light-gold); }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: var(--ink);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .video-item .category {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.4rem;
+  }
+
+  .video-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+
+  .video-item .author {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .video-item p {
+    font-size: 0.88rem;
+    color: #555;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* VIDEO ROW 2 */
+  .video-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    padding: 0 4rem;
+    border-top: 1px solid rgba(10,10,8,0.15);
+  }
+
+  .video-grid-2 .video-item:first-child {
+    border-right: 1px solid rgba(10,10,8,0.15);
+  }
+
+  @media (max-width: 768px) {
+    .video-grid, .video-grid-2 { grid-template-columns: 1fr; padding: 0 1.5rem; }
+    .video-item { border-right: none; border-bottom: 1px solid rgba(10,10,8,0.15); }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; padding: 0 1.5rem; }
+    header, .section-title, .principle-box, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .intro { padding: 2rem 1.5rem; }
+    .card { border-right: none; border-bottom: 1px solid rgba(10,10,8,0.15); }
+    .podcast-card { padding: 1.5rem; }
+    .issue-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <span class="navbar-brand">La Bibliothèque de l'Ambitieux</span>
+  <ul class="navbar-links">
+    <li><a href="#livres">📚 Livres</a></li>
+    <li><a href="#podcasts">🎙 Podcasts</a></li>
+    <li><a href="#youtube">▶ YouTube</a></li>
+    <li><a href="#investissement">📈 Investissement</a></li>
+    <li><a href="#newsletters">✉ Newsletters</a></li>
+    <li><a href="#concepts">🧠 Concepts</a></li>
+    <li><a href="#devperso">🌱 Dev Perso</a></li>
+    <li><a href="#bourse">💹 Bourse</a></li>
+    <li><a href="#roadmap">🗺 Roadmap</a></li>
+  </ul>
+</nav>
+
+<a class="back-top" id="backTop" href="#top" title="Retour en haut">↑</a>
+
+<span id="top"></span>
+
+<header>
+  <span class="issue-label">Vol. I — Ambition & Richesse</span>
+  <div class="masthead">
+    <h1>La Bibliothèque<br>de l'Ambitieux</h1>
+    <p class="tagline">Livres · Podcasts · Principes · Mentalité</p>
+  </div>
+</header>
+
+<div class="header-rule">
+  <span>Enrichissement</span>
+  <span>·</span>
+  <span>Entrepreneuriat</span>
+  <span>·</span>
+  <span>Mindset</span>
+  <span>·</span>
+  <span>Liberté financière</span>
+</div>
+
+<div class="intro">
+  <p class="drop-cap">La richesse se construit dans les bibliothèques avant de se manifester dans les comptes bancaires. Voici une sélection rigoureuse de ce qui forge les esprits qui bâtissent.</p>
+</div>
+
+<!-- LIVRES FONDAMENTAUX -->
+<div id="livres" class="section-title">
+  <h2>Livres fondamentaux</h2>
+</div>
+
+<div class="grid-3">
+  <div class="card" data-num="1">
+    <div class="category">Investissement</div>
+    <h3>Père Riche, Père Pauvre</h3>
+    <div class="author">Robert T. Kiyosaki</div>
+    <p>Le livre qui a bouleversé la vision de l'argent pour des millions de personnes. La différence entre actifs et passifs, expliquée simplement.</p>
+    <div class="quote">« Les riches font travailler l'argent pour eux. »</div>
+  </div>
+  <div class="card" data-num="2">
+    <div class="category">Entrepreneuriat</div>
+    <h3>The Lean Startup</h3>
+    <div class="author">Eric Ries</div>
+    <p>La méthode qui a révolutionné la façon de lancer des entreprises : tester vite, apprendre vite, pivoter sans hésiter.</p>
+    <div class="quote">« Build, Measure, Learn. »</div>
+  </div>
+  <div class="card" data-num="3">
+    <div class="category">Mindset</div>
+    <h3>Think and Grow Rich</h3>
+    <div class="author">Napoleon Hill</div>
+    <p>Le classique absolu. Écrit en 1937 après 20 ans d'étude des plus grands millionnaires américains. Intemporel.</p>
+    <div class="quote">« Ce que l'esprit peut concevoir et croire, il peut l'accomplir. »</div>
+  </div>
+</div>
+
+<div class="grid-3">
+  <div class="card" data-num="4">
+    <div class="category">Finance personnelle</div>
+    <h3>L'Homme le plus Riche de Babylone</h3>
+    <div class="author">George S. Clason</div>
+    <p>Les lois universelles de la richesse racontées à travers des paraboles antiques. Payez-vous en premier, toujours.</p>
+    <div class="quote">« Une part de ce que tu gagnes t'appartient. »</div>
+  </div>
+  <div class="card" data-num="5">
+    <div class="category">Ambition</div>
+    <h3>The 10X Rule</h3>
+    <div class="author">Grant Cardone</div>
+    <p>Fixez des objectifs dix fois plus grands, déployez dix fois plus d'efforts. L'ambition ordinaire est une stratégie perdante.</p>
+    <div class="quote">« Succès est votre devoir, obligation, responsabilité. »</div>
+  </div>
+  <div class="card" data-num="6">
+    <div class="category">Liberté</div>
+    <h3>La Semaine de 4 heures</h3>
+    <div class="author">Tim Ferriss</div>
+    <p>Comment automatiser sa vie professionnelle, déléguer l'essentiel et vivre comme un millionnaire sans l'être forcément.</p>
+    <div class="quote">« Demandez ce que vous voulez vraiment. »</div>
+  </div>
+</div>
+
+<!-- PODCASTS -->
+<div id="podcasts" class="section-title">
+  <h2>Podcasts incontournables</h2>
+</div>
+
+<div style="padding: 0 4rem; border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="podcast-card">
+    <div class="podcast-num">01</div>
+    <div class="podcast-info">
+      <h3>Invest Yourself — Yomi Denzel</h3>
+      <p>E-commerce, mindset millionnaire, liberté financière — le podcast business francophone de référence.</p>
+    </div>
+    <div class="podcast-tag">FR · Business</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">02</div>
+    <div class="podcast-info">
+      <h3>The Tim Ferriss Show</h3>
+      <p>Interviews de world-class performers : leurs routines, livres, habitudes et secrets de succès disséqués en profondeur.</p>
+    </div>
+    <div class="podcast-tag">EN · Lifestyle</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">03</div>
+    <div class="podcast-info">
+      <h3>Génération Do It Yourself — Mathieu Stefani</h3>
+      <p>Les coulisses des entrepreneurs français qui ont tout construit de zéro, sans filtre ni langue de bois.</p>
+    </div>
+    <div class="podcast-tag">FR · Entrepreneuriat</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">04</div>
+    <div class="podcast-info">
+      <h3>How I Built This — Guy Raz</h3>
+      <p>Les fondateurs des plus grandes marques mondiales racontent leur histoire vraie, avec les échecs et les doutes inclus.</p>
+    </div>
+    <div class="podcast-tag">EN · Startup</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">05</div>
+    <div class="podcast-info">
+      <h3>Thunes & Ambitions — Clem Finance</h3>
+      <p>Investissement, immobilier, bourse et indépendance financière vulgarisés pour la nouvelle génération française.</p>
+    </div>
+    <div class="podcast-tag">FR · Finance</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">06</div>
+    <div class="podcast-info">
+      <h3>My First Million — Sam Parr & Shaan Puri</h3>
+      <p>Des idées de business rentables, des analyses de marchés cachés, du brainstorming à haute valeur ajoutée.</p>
+    </div>
+    <div class="podcast-tag">EN · Ideas</div>
+  </div>
+</div>
+
+<!-- CITATION CENTRALE -->
+<div class="principle-box">
+  <h3>Principe cardinal</h3>
+  <blockquote>« Votre revenu à cinq ans sera la moyenne des cinq personnes que vous fréquentez le plus aujourd'hui. Choisissez votre environnement avec la même rigueur que vos investissements. »</blockquote>
+  <cite>— Jim Rohn, adapté</cite>
+</div>
+
+<!-- LIVRES AVANCÉS -->
+<div class="section-title">
+  <h2>Pour aller plus loin</h2>
+</div>
+
+<div class="grid-2" style="border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="card" data-num="→" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Psychologie de l'argent</div>
+    <h3>The Psychology of Money</h3>
+    <div class="author">Morgan Housel</div>
+    <p>Pourquoi nos comportements irrationnels avec l'argent nous coûtent plus que nos mauvais placements. Un regard lucide et bienveillant sur nos biais financiers.</p>
+  </div>
+  <div class="card" data-num="→">
+    <div class="category">Scalabilité</div>
+    <h3>$100M Offers</h3>
+    <div class="author">Alex Hormozi</div>
+    <p>Comment créer des offres si bonnes que les clients se sentiraient stupides de refuser. Le livre le plus concret sur la monétisation d'une expertise.</p>
+  </div>
+  <div class="card" data-num="→" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Systèmes</div>
+    <h3>The E-Myth Revisited</h3>
+    <div class="author">Michael Gerber</div>
+    <p>La différence entre travailler dans son entreprise et travailler sur son entreprise. Le manuel de la systématisation pour entrepreneurs.</p>
+  </div>
+  <div class="card" data-num="→">
+    <div class="category">Richesse radicale</div>
+    <h3>The Millionaire Fastlane</h3>
+    <div class="author">MJ DeMarco</div>
+    <p>Une critique acerbe du conseil financier classique. L'enrichissement lent n'est pas la seule voie — il en existe une plus rapide si on accepte de la construire.</p>
+  </div>
+</div>
+
+<!-- PRINCIPES -->
+<div class="section-title">
+  <h2>Les 5 lois de l'ambitieux</h2>
+</div>
+
+<div class="grid-3" style="padding: 0 4rem; border-top: 1px solid rgba(10,10,8,0.15); border-bottom: 1px solid rgba(10,10,8,0.15); margin-bottom: 0;">
+  <div class="card" data-num="I" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Loi I</div>
+    <h3>Payez-vous en premier</h3>
+    <p>Avant toute dépense, transférez automatiquement une part de votre revenu vers vos investissements. Minimum 20%.</p>
+  </div>
+  <div class="card" data-num="II" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Loi II</div>
+    <h3>Créez des actifs, pas des dépenses</h3>
+    <p>Chaque euro dépensé doit être évalué : est-ce qu'il me rapproche ou m'éloigne de la liberté financière ?</p>
+  </div>
+  <div class="card" data-num="III">
+    <div class="category">Loi III</div>
+    <h3>Apprenez sans cesse</h3>
+    <p>Un livre par mois minimum. Une heure de podcast par semaine. La connaissance est l'actif qui ne se déprécie jamais.</p>
+  </div>
+</div>
+<div class="grid-2" style="padding: 0 4rem; border-bottom: 2px solid var(--ink);">
+  <div class="card" data-num="IV" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Loi IV</div>
+    <h3>Agissez avant d'être prêt</h3>
+    <p>La perfection est l'ennemie du lancement. Les conditions idéales n'arriveront jamais. La clarté vient de l'action, pas de la réflexion.</p>
+  </div>
+  <div class="card" data-num="V">
+    <div class="category">Loi V</div>
+    <h3>Pensez en systèmes</h3>
+    <p>Construisez des systèmes qui génèrent de la valeur pendant que vous dormez. L'entrepreneur libre travaille sur son business, pas dedans.</p>
+  </div>
+</div>
+
+<!-- CHAÎNES YOUTUBE -->
+<div id="investissement" class="section-title">
+  <h2>Chaînes YouTube à suivre</h2>
+</div>
+
+<div style="padding: 0 4rem; border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="podcast-card">
+    <div class="podcast-num">YT</div>
+    <div class="podcast-info">
+      <h3>Yomi Denzel</h3>
+      <p>E-commerce, dropshipping, mindset millionnaire. Le créateur francophone le plus influent sur l'entrepreneuriat digital.</p>
+    </div>
+    <div class="podcast-tag">FR · E-commerce</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">YT</div>
+    <div class="podcast-info">
+      <h3>Graham Stephan</h3>
+      <p>Immobilier, investissement, épargne — des analyses chiffrées accessibles sur comment construire la richesse progressivement.</p>
+    </div>
+    <div class="podcast-tag">EN · Finance</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">YT</div>
+    <div class="podcast-info">
+      <h3>Heu?reka — Gilles Mitteau</h3>
+      <p>Économie, finance et système monétaire expliqués avec une rigueur rare. Comprendre les mécanismes pour mieux investir.</p>
+    </div>
+    <div class="podcast-tag">FR · Économie</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">YT</div>
+    <div class="podcast-info">
+      <h3>Alex Hormozi</h3>
+      <p>Business, acquisition client, offres irrésistibles. Chaque vidéo vaut des heures de formation business condensées en 10 minutes.</p>
+    </div>
+    <div class="podcast-tag">EN · Business</div>
+  </div>
+  <div class="podcast-card">
+    <div class="podcast-num">YT</div>
+    <div class="podcast-info">
+      <h3>Finances et Liberté — Matthieu Louvet</h3>
+      <p>Bourse, ETF, gestion de patrimoine. La chaîne de référence pour l'investisseur français qui commence ou qui approfondit.</p>
+    </div>
+    <div class="podcast-tag">FR · Bourse</div>
+  </div>
+</div>
+
+<!-- INVESTISSEMENT : CLASSES D'ACTIFS -->
+<div class="section-title">
+  <h2>Investissement — Les grandes classes d'actifs</h2>
+</div>
+
+<div class="grid-3" style="border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="card" data-num="€">
+    <div class="category">Bourse & ETF</div>
+    <h3>Investir en bourse passive</h3>
+    <div class="author">Stratégie long terme</div>
+    <p>Les ETF monde (MSCI World, S&P 500) offrent une diversification maximale à frais réduits. La stratégie DCA — investir une somme fixe chaque mois — bat la majorité des gérants actifs sur 20 ans.</p>
+    <div class="quote">« Time in the market beats timing the market. »</div>
+  </div>
+  <div class="card" data-num="🏠">
+    <div class="category">Immobilier</div>
+    <h3>L'effet de levier immobilier</h3>
+    <div class="author">Actif tangible</div>
+    <p>L'immobilier locatif permet d'emprunter pour investir — le seul actif où la banque finance votre enrichissement. La clé : cashflow positif dès le premier mois.</p>
+    <div class="quote">« Achetez de l'immobilier, ils n'en fabriquent plus. »</div>
+  </div>
+  <div class="card" data-num="₿">
+    <div class="category">Actifs digitaux</div>
+    <h3>Bitcoin & cryptomonnaies</h3>
+    <div class="author">Actif spéculatif</div>
+    <p>Réserve de valeur numérique pour certains, pur spéculatif pour d'autres. À considérer avec une allocation limitée (5-10%) dans un portefeuille diversifié. Volatilité extrême.</p>
+    <div class="quote">« Ne jamais investir ce qu'on ne peut se permettre de perdre. »</div>
+  </div>
+</div>
+
+<!-- NEWSLETTERS -->
+<div id="newsletters" class="section-title">
+  <h2>Newsletters & ressources digitales</h2>
+</div>
+
+<div class="grid-2" style="border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="card" data-num="✉" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Newsletter · FR</div>
+    <h3>Snowball — Yoann Lopez</h3>
+    <div class="author">Finance & Investissement</div>
+    <p>La newsletter finance personnelle la plus lue en France. Chaque semaine : analyses de marchés, décryptages d'actifs, stratégies d'investissement pour particuliers.</p>
+  </div>
+  <div class="card" data-num="✉">
+    <div class="category">Newsletter · EN</div>
+    <h3>The Hustle — HubSpot</h3>
+    <div class="author">Business & Tendances</div>
+    <p>Les tendances business, startups et économie en 5 minutes chaque matin. Ton décontracté, contenu dense, gratuit.</p>
+  </div>
+  <div class="card" data-num="✉" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Newsletter · FR</div>
+    <h3>Morning — Explique moi l'éco</h3>
+    <div class="author">Actualité économique</div>
+    <p>L'actualité économique française et mondiale décryptée chaque matin en moins de 10 minutes. Indispensable pour comprendre le contexte macro.</p>
+  </div>
+  <div class="card" data-num="✉">
+    <div class="category">Newsletter · EN</div>
+    <h3>Milkroad — Crypto & Web3</h3>
+    <div class="author">Actifs digitaux</div>
+    <p>Pour suivre l'univers crypto et Web3 sans y consacrer des heures. Résumés hebdomadaires des événements qui comptent vraiment.</p>
+  </div>
+</div>
+
+<!-- CITATION 2 -->
+<div class="principle-box">
+  <h3>Vérité inconfortable</h3>
+  <blockquote>« La majorité des gens ne deviendront jamais riches parce qu'ils préfèrent paraître riches. Choisissez entre le statut aujourd'hui et la liberté demain — rarement les deux à la fois. »</blockquote>
+  <cite>— Principe de l'accumulation silencieuse</cite>
+</div>
+
+<!-- CONCEPTS CLÉS -->
+<div id="concepts" class="section-title">
+  <h2>10 concepts que tout ambitieux doit maîtriser</h2>
+</div>
+
+<div class="grid-2" style="border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="card" data-num="①" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Concept fondamental</div>
+    <h3>Les intérêts composés</h3>
+    <p>La huitième merveille du monde selon Einstein. 10 000€ à 8% annuel pendant 30 ans = 100 627€. La patience est la compétence la plus rentable qui existe.</p>
+  </div>
+  <div class="card" data-num="②">
+    <div class="category">Concept fondamental</div>
+    <h3>Le revenu passif</h3>
+    <p>Tout revenu généré sans échange direct de temps. Loyers, dividendes, royalties, formations en ligne. L'objectif ultime : revenus passifs supérieurs aux dépenses.</p>
+  </div>
+  <div class="card" data-num="③" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Concept fiscal</div>
+    <h3>L'optimisation fiscale légale</h3>
+    <p>PEA, assurance-vie, holding, SCI, LMNP. La fiscalité est une règle du jeu, pas une fatalité. Les riches optimisent — les autres subissent.</p>
+  </div>
+  <div class="card" data-num="④">
+    <div class="category">Concept business</div>
+    <h3>Le levier et la scalabilité</h3>
+    <p>Une heure de travail qui génère 10€ vs une heure qui crée un système qui génère 10€ pendant 10 ans. Toujours viser le second modèle.</p>
+  </div>
+  <div class="card" data-num="⑤" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Concept psychologique</div>
+    <h3>La mentalité d'abondance</h3>
+    <p>La richesse n'est pas un gâteau à partager — elle se crée. Ceux qui réussissent voient les opportunités là où les autres voient la compétition.</p>
+  </div>
+  <div class="card" data-num="⑥">
+    <div class="category">Concept stratégique</div>
+    <h3>La règle des 80/20 (Pareto)</h3>
+    <p>20% de vos actions génèrent 80% de vos résultats. Identifiez ces 20%, éliminez le reste. Vaut aussi pour vos clients, vos revenus, vos relations.</p>
+  </div>
+  <div class="card" data-num="⑦" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Concept d'investissement</div>
+    <h3>La diversification intelligente</h3>
+    <p>Ne pas mettre tous ses œufs dans le même panier — mais en mettre assez peu pour surveiller chacun. La sur-diversification dilue les gains.</p>
+  </div>
+  <div class="card" data-num="⑧">
+    <div class="category">Concept de flux</div>
+    <h3>Le cashflow positif</h3>
+    <p>Un actif qui coûte chaque mois est un passif déguisé. Seul un actif qui génère plus qu'il ne consomme mérite d'être conservé dans un portefeuille sain.</p>
+  </div>
+  <div class="card" data-num="⑨" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Concept de marque</div>
+    <h3>Personal Branding</h3>
+    <p>Votre réputation est votre actif le plus précieux. À l'ère digitale, une audience est un capital. Construire une marque personnelle, c'est multiplier ses opportunités.</p>
+  </div>
+  <div class="card" data-num="⑩">
+    <div class="category">Concept de réseau</div>
+    <h3>Le capital social</h3>
+    <p>Votre réseau détermine votre net worth. Une connexion avec la bonne personne vaut parfois plus que des années de travail. Investissez autant dans les relations que dans les actifs.</p>
+  </div>
+</div>
+
+<!-- VIDÉOS MINDSET & MOTIVATION -->
+<div id="youtube" class="section-title">
+  <h2>Vidéos Mindset & Motivation</h2>
+</div>
+
+<div style="padding: 0 4rem; border-top: 1px solid rgba(10,10,8,0.15);">
+
+  <a href="https://www.youtube.com/watch?v=TQMbvJNRpLE" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Yomi Denzel · <span>Mindset & Richesse</span></div>
+      <h3>Les secrets des millionnaires</h3>
+      <p>Ce que les millionnaires font différemment — habitudes, pensées et décisions qui séparent les riches des autres.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+
+  <a href="https://www.youtube.com/watch?v=XNP1x11Z2Ig" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Alex Hormozi · <span>Ambition & Business</span></div>
+      <h3>How to Become Insanely Wealthy</h3>
+      <p>La vérité brutale sur ce qu'il faut vraiment faire pour bâtir une fortune. Pas de raccourcis, juste la mécanique réelle.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+
+  <a href="https://www.youtube.com/watch?v=mgmVOuLgFB0" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Jim Rohn · <span>Philosophie & Succès</span></div>
+      <h3>One Year to Success</h3>
+      <p>Le discours légendaire de Jim Rohn sur la discipline, le travail sur soi et la construction d'une vie remarquable.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+
+  <a href="https://www.youtube.com/watch?v=lsSC2vx7zFQ" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Graham Stephan · <span>Finance & Mentalité</span></div>
+      <h3>Why You're Not Rich Yet</h3>
+      <p>Les 7 erreurs financières qui empêchent la majorité des gens de s'enrichir. Analyse directe, sans complaisance.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+
+  <a href="https://www.youtube.com/watch?v=vDqVOza71rA" target="_blank" class="yt-card" style="border-bottom: none;">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">David Goggins · <span>Mental & Discipline</span></div>
+      <h3>Change Your Mindset — Stay Hard</h3>
+      <p>La discipline mentale comme fondation de toute réussite. Comment reprogrammer son cerveau face à l'adversité.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+
+</div>
+
+<!-- ROADMAP -->
+<div id="roadmap" class="section-title">
+  <h2>Roadmap vers la liberté financière</h2>
+</div>
+
+<div style="padding: 2rem 4rem 3rem; border-top: 1px solid rgba(10,10,8,0.15);">
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid rgba(10,10,8,0.2);">
+    <div style="padding: 1.5rem; border-right: 1px solid rgba(10,10,8,0.2); background: var(--ink); color: var(--paper);">
+      <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--gold); line-height:1;">01</div>
+      <div style="font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin: 0.5rem 0;">Phase 1 · 0–6 mois</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.7rem; color: var(--paper);">Fondations</h3>
+      <p style="font-size: 0.85rem; font-style: italic; color: rgba(245,240,232,0.7);">Lire 5 livres essentiels. Supprimer les dettes à taux élevé. Constituer 3 mois de fonds d'urgence. Ouvrir un PEA.</p>
+    </div>
+    <div style="padding: 1.5rem; border-right: 1px solid rgba(10,10,8,0.2);">
+      <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--gold); line-height:1; opacity:0.3;">02</div>
+      <div style="font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin: 0.5rem 0;">Phase 2 · 6–24 mois</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.7rem;">Revenus multiples</h3>
+      <p style="font-size: 0.85rem; font-style: italic; color: #555;">Lancer une activité secondaire. Investir 20% des revenus chaque mois. Explorer l'immobilier ou la bourse passive.</p>
+    </div>
+    <div style="padding: 1.5rem; border-right: 1px solid rgba(10,10,8,0.2);">
+      <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--gold); line-height:1; opacity:0.3;">03</div>
+      <div style="font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin: 0.5rem 0;">Phase 3 · 2–5 ans</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.7rem;">Accélération</h3>
+      <p style="font-size: 0.85rem; font-style: italic; color: #555;">Scaler l'activité principale. Optimiser la fiscalité. Acquérir un premier bien locatif. Diversifier le portefeuille.</p>
+    </div>
+    <div style="padding: 1.5rem;">
+      <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--gold); line-height:1; opacity:0.3;">04</div>
+      <div style="font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); margin: 0.5rem 0;">Phase 4 · 5–10 ans</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.7rem;">Liberté</h3>
+      <p style="font-size: 0.85rem; font-style: italic; color: #555;">Revenus passifs couvrent 100% des dépenses. Optionnel : vendre l'entreprise ou déléguer. Protéger et transmettre.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DÉVELOPPEMENT PERSONNEL -->
+<div id="devperso" class="section-title">
+  <h2>Développement personnel — Recommandations</h2>
+</div>
+
+<div class="grid-3" style="border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="card" data-num="1">
+    <div class="category">Habitudes · Fondamental</div>
+    <h3>Atomic Habits</h3>
+    <div class="author">James Clear</div>
+    <p>Le livre de référence sur la construction d'habitudes durables. Améliorer 1% chaque jour produit des résultats spectaculaires sur le long terme.</p>
+    <div class="quote">« Tu ne te hisses pas au niveau de tes objectifs, tu tombes au niveau de tes systèmes. »</div>
+  </div>
+  <div class="card" data-num="2">
+    <div class="category">Focus · Productivité</div>
+    <h3>Deep Work</h3>
+    <div class="author">Cal Newport</div>
+    <p>La capacité à se concentrer profondément est la compétence la plus rare et la plus précieuse de notre époque de distraction permanente.</p>
+    <div class="quote">« Les distractions superficielles sont l'ennemi de l'excellence. »</div>
+  </div>
+  <div class="card" data-num="3">
+    <div class="category">Stoïcisme · Mental</div>
+    <h3>L'Obstacle est le Chemin</h3>
+    <div class="author">Ryan Holiday</div>
+    <p>La philosophie stoïcienne appliquée aux défis modernes. Ce qui te bloque est précisément ce qui te fait progresser — si tu l'utilises correctement.</p>
+    <div class="quote">« Ce qui gêne l'action fait avancer l'action. »</div>
+  </div>
+</div>
+
+<div class="grid-3" style="border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="card" data-num="4">
+    <div class="category">Discipline · Corps & Esprit</div>
+    <h3>Can't Hurt Me</h3>
+    <div class="author">David Goggins</div>
+    <p>L'autobiographie la plus brutalement honnête sur le dépassement de soi. Goggins prouve que les limites mentales précèdent toujours les limites physiques.</p>
+    <div class="quote">« La plupart des gens vivent à 40% de leur potentiel. »</div>
+  </div>
+  <div class="card" data-num="5">
+    <div class="category">Influence · Communication</div>
+    <h3>Comment se faire des amis</h3>
+    <div class="author">Dale Carnegie</div>
+    <p>Publié en 1936, toujours aussi pertinent. Les principes fondamentaux de l'influence humaine, de la persuasion et du leadership naturel.</p>
+    <div class="quote">« Le seul moyen d'obtenir quelque chose est de donner ce que l'autre veut. »</div>
+  </div>
+  <div class="card" data-num="6">
+    <div class="category">Identité · Transformation</div>
+    <h3>Awaken the Giant Within</h3>
+    <div class="author">Tony Robbins</div>
+    <p>Comment reprendre le contrôle de ses émotions, de ses décisions et de sa destinée. Le manuel de la transformation personnelle par l'un des plus grands coaches au monde.</p>
+    <div class="quote">« Le changement se produit quand la douleur de rester pareil dépasse la peur de changer. »</div>
+  </div>
+</div>
+
+<!-- PODCASTS DEV PERSO -->
+<div class="section-title">
+  <h2>Podcasts développement personnel</h2>
+</div>
+
+<div style="padding: 0 4rem; border-top: 1px solid rgba(10,10,8,0.15);">
+  <a href="https://www.youtube.com/@hubermanlab" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Andrew Huberman · <span>Science & Performance</span></div>
+      <h3>Huberman Lab Podcast</h3>
+      <p>Neurosciences appliquées à la performance humaine : sommeil, dopamine, focus, motivation. La science au service de l'optimisation de soi.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+  <a href="https://www.youtube.com/@ImpactThéorie" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Tom Bilyeu · <span>Mindset · Succès</span></div>
+      <h3>Impact Theory</h3>
+      <p>Interviews des plus grands experts en développement humain, entrepreneuriat et mindset. Chaque épisode est une masterclass.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+  <a href="https://www.youtube.com/@FrancoisAsztalos" target="_blank" class="yt-card" style="border-bottom:none;">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">François Asztalos · <span>FR · Ambition</span></div>
+      <h3>Ambition — Le Podcast</h3>
+      <p>Interviews d'entrepreneurs et de personnalités françaises ambitieuses. Des histoires vraies, des leçons concrètes, une énergie communicative.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+</div>
+
+<!-- BOURSE & INVESTISSEMENT -->
+<div id="bourse" class="section-title">
+  <h2>Bourse — Par où commencer</h2>
+</div>
+
+<div class="grid-2" style="border-top: 1px solid rgba(10,10,8,0.15);">
+  <div class="card" data-num="①" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Étape 1 · Comprendre les bases</div>
+    <h3>Ouvrir un PEA</h3>
+    <div class="author">Priorité absolue pour les résidents français</div>
+    <p>Le Plan d'Épargne en Actions est l'enveloppe fiscale la plus avantageuse en France. Après 5 ans : 0% d'impôt sur les plus-values. Meilleurs courtiers : <strong>Fortuneo, Boursorama, Trade Republic</strong>.</p>
+  </div>
+  <div class="card" data-num="②">
+    <div class="category">Étape 2 · Première stratégie</div>
+    <h3>Investir en ETF World</h3>
+    <div class="author">La stratégie passive qui bat 90% des gérants</div>
+    <p>Un ETF MSCI World réplique les 1500 plus grandes entreprises mondiales en un seul achat. Frais : 0,12%/an. Stratégie : investir une somme fixe chaque mois (DCA) sans chercher à timer le marché.</p>
+  </div>
+  <div class="card" data-num="③" style="border-right: 1px solid rgba(10,10,8,0.15);">
+    <div class="category">Étape 3 · Se former</div>
+    <h3>Livres essentiels bourse</h3>
+    <div class="author">Dans cet ordre précis</div>
+    <p><strong>1. "L'investisseur intelligent"</strong> de Benjamin Graham — la bible. <strong>2. "A Random Walk Down Wall Street"</strong> de Burton Malkiel. <strong>3. "The Little Book of Common Sense Investing"</strong> de John Bogle, fondateur de Vanguard.</p>
+  </div>
+  <div class="card" data-num="④">
+    <div class="category">Étape 4 · Suivre l'actualité</div>
+    <h3>Ressources quotidiennes</h3>
+    <div class="author">Sans y passer sa journée</div>
+    <p><strong>Snowball Newsletter</strong> (FR) — résumé hebdo des marchés. <strong>MorningStar</strong> — analyse de fonds et ETF. <strong>Boursorama</strong> — cours en temps réel. Règle d'or : ne regarder son portefeuille qu'une fois par mois.</p>
+  </div>
+</div>
+
+<!-- VIDÉOS BOURSE -->
+<div class="section-title">
+  <h2>Vidéos bourse pour débutants</h2>
+</div>
+
+<div style="padding: 0 4rem; border-top: 1px solid rgba(10,10,8,0.15);">
+  <a href="https://www.youtube.com/watch?v=gFQNPmLKj1k" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Matthieu Louvet · <span>FR · ETF & PEA</span></div>
+      <h3>Comment investir en bourse quand on débute</h3>
+      <p>Le guide complet pour commencer à investir en bourse en France : PEA, ETF, DCA. Clair, sans jargon, actionnable immédiatement.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=p7HKvqRI_Bo" target="_blank" class="yt-card">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Heu?reka · <span>FR · Économie</span></div>
+      <h3>Comment fonctionne la bourse vraiment ?</h3>
+      <p>Explication rigoureuse et accessible des mécanismes boursiers : actions, indices, bulles, crises. Comprendre avant d'investir.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+  <a href="https://www.youtube.com/watch?v=epiyExCyb2s" target="_blank" class="yt-card" style="border-bottom:none;">
+    <div class="yt-play">▶</div>
+    <div class="yt-info">
+      <div class="yt-meta">Graham Stephan · <span>EN · Investissement</span></div>
+      <h3>How I'd Invest $1000 in 2024</h3>
+      <p>Ce que ferait un investisseur expérimenté avec 1000€ aujourd'hui. Raisonnement, allocation, priorités. Traduit facilement en contexte français.</p>
+    </div>
+    <div class="yt-cta">Voir sur YouTube ↗</div>
+  </a>
+</div>
+
+<!-- CITATION FINALE -->
+<div class="principle-box">
+  <h3>Pour toi, Pete</h3>
+  <blockquote>« Tu n'as pas besoin de tout savoir pour commencer. Tu as besoin de commencer pour tout savoir. Le support informatique est ton levier immédiat — la bourse est ton moteur long terme. Les deux ensemble, c'est la liberté. »</blockquote>
+  <cite>— Principe de l'action imparfaite</cite>
+</div>
+
+<footer>
+  <p>La Bibliothèque de l'Ambitieux</p>
+  <p>Enrichissement · Liberté · Construction</p>
+  <p>Mise à jour 2026</p>
+</footer>
+
+<script>
+  // Back to top button
+  const backTop = document.getElementById('backTop');
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('visible', window.scrollY > 400);
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.navbar-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 80) current = section.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+</body>
+</html>
