@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>PPL v4 · Smart Rabbit Fitness</title>
+<title>PPL Entretien · Smart Rabbit Fitness</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -64,6 +64,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .etags{display:flex;flex-wrap:wrap;gap:4px;}
 .fix-tag{font-size:9px;font-weight:500;padding:2px 7px;border-radius:99px;font-family:'DM Mono',monospace;background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.2);}
 .rpe{font-size:9px;font-weight:500;padding:2px 7px;border-radius:99px;font-family:'DM Mono',monospace;}
+.rpe7{background:rgba(62,207,142,.12);color:#6ddeb0;border:1px solid rgba(62,207,142,.25);}
 .rpe8{background:rgba(245,158,11,.12);color:#fcd34d;border:1px solid rgba(245,158,11,.25);}
 .rpe9{background:rgba(251,146,60,.12);color:#fbad74;border:1px solid rgba(251,146,60,.25);}
 .tempo-badge{font-size:9px;font-weight:500;padding:2px 7px;border-radius:99px;font-family:'DM Mono',monospace;background:rgba(148,163,184,.08);color:#64748b;border:1px solid rgba(148,163,184,.15);}
@@ -163,7 +164,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 </div>
 
 <div class="page" id="p3">
-  <div class="ph"><div class="psup">Push · Pull · Legs · 3j / semaine · v4</div><div class="ptitle"><strong>Récap</strong> hebdomadaire</div></div>
+  <div class="ph"><div class="psup">Push · Pull · Legs · 3j / semaine · Mode Entretien</div><div class="ptitle"><strong>Récap</strong> hebdomadaire</div></div>
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
     <button class="rbtn" onclick="changeWeek(-1)" style="padding:6px 16px;font-size:13px;">←</button>
     <div style="flex:1;text-align:center;">
@@ -186,7 +187,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
   <div class="secl">Guide tempo</div>
   <div class="tb">
     <div class="tip"><div class="tdot" style="background:#64748b"></div><strong style="color:var(--text)">2·0·2</strong> — Composés : 2s montée contrôlée · 0s pause · 2s descente. Priorité technique, pas d'élan.</div>
-    <div class="tip"><div class="tdot" style="background:#64748b"></div><strong style="color:var(--text)">3·0·1</strong> — Isolations : 1s montée explosive · 0s pause · 3s excentrique lent. La phase négative est responsable de 70% du stimulus hypertrophique.</div>
+    <div class="tip"><div class="tdot" style="background:#64748b"></div><strong style="color:var(--text)">3·0·1</strong> — Isolations : 1s montée explosive · 0s pause · 3s excentrique lent. L'excentrique contrôlé maintient la tension musculaire et la qualité technique.</div>
     <div class="tip"><div class="tdot" style="background:#64748b"></div><strong style="color:var(--text)">2·0·3</strong> — Abdos & ischio : excentrique extra lent pour maximiser l'étirement sous charge.</div>
   </div>
   <div class="div"></div>
@@ -197,11 +198,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="tip"><div class="tdot" style="background:rgba(248,113,113,.7)"></div>Si vous ne complétez pas toutes les séries au haut de la plage → ne validez pas. Même poids à la prochaine séance.</div>
   </div>
   <div class="div"></div>
-  <div class="secl">Améliorations v4</div>
+  <div class="secl">Mode Entretien</div>
   <div class="tb">
-    <div class="tip"><div class="tdot" style="background:var(--green)"></div>Tempo prescrit sur chaque exercice (2·0·2 composés / 3·0·1 isolations / 2·0·3 abdos-ischio).</div>
-    <div class="tip"><div class="tdot" style="background:var(--green)"></div>Indication chauffe sur composés lourds : 2 séries non comptabilisées avant les séries de travail.</div>
-    <div class="tip"><div class="tdot" style="background:var(--green)"></div>Double progression : bouton ⬆ par exercice, appliqué uniquement quand toutes les séries sont complètes au max de la plage.</div>
+    <div class="tip"><div class="tdot" style="background:var(--green)"></div>Volume élevé (4-5 séries/exercice, au-dessus du programme classique) — c'est surtout le RPE qui garde ce mode en registre "entretien".</div>
+    <div class="tip"><div class="tdot" style="background:var(--green)"></div>Intensité abaissée (RPE 7-8, soit 2-3 reps en réserve) : plus de marge, moins de fatigue accumulée d'une séance à l'autre.</div>
+    <div class="tip"><div class="tdot" style="background:var(--green)"></div>Double progression toujours active mais optionnelle : utile si tu veux consolider tes charges actuelles, pas obligatoire pour progresser.</div>
   </div>
 </div>
 
@@ -230,48 +231,48 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 const PROGRAM = [
   { key:'push', label:'Push', sublabel:'Pecs · Épaules · Biceps', groupes:[
     { tag:'Pectoraux', cls:'tpec', exos:[
-      { name:'Chest Press machine (plat)',     sub:'Pectoraux · Chef sternal · Deltoïdes ant.',        sets:4, reps:'8–10',     bw:50, prog:2.5, rpe:8, tempo:'2·0·2', wu:true,  isNew:false },
-      { name:'Développé incliné haltères',     sub:'Pectoraux sup. · Deltoïdes ant. · Triceps',        sets:3, reps:'10–12',    bw:18, prog:1,   rpe:8, tempo:'2·0·2', wu:true,  isNew:false },
-      { name:'Pec Deck / Pec Fly Machine',     sub:'Pectoraux · Isolation chef sternal',               sets:3, reps:'12–15',    bw:45, prog:1,   rpe:9, tempo:'3·0·1', wu:false, isNew:false },
+      { name:'Chest Press machine (plat)',     sub:'Pectoraux · Chef sternal · Deltoïdes ant.',        sets:5, reps:'8–10',     bw:47.5, prog:2.5, rpe:7, tempo:'2·0·2', wu:true,  isNew:false },
+      { name:'Développé incliné haltères',     sub:'Pectoraux sup. · Deltoïdes ant. · Triceps',        sets:4, reps:'10–12',    bw:17, prog:1,   rpe:7, tempo:'2·0·2', wu:true,  isNew:false },
+      { name:'Pec Deck / Pec Fly Machine',     sub:'Pectoraux · Isolation chef sternal',               sets:4, reps:'12–15',    bw:42.5, prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:false },
     ]},
     { tag:'Épaules', cls:'tepa', exos:[
-      { name:'Dumbbell Seated Shoulder Press', sub:'Deltoïdes · Trapèzes sup. · Triceps',              sets:4, reps:'8–10',     bw:16, prog:1,   rpe:8, tempo:'2·0·2', wu:true,  isNew:true  },
-      { name:'Cable Face Pull (rope)',         sub:'Deltoïdes post. · Rotateurs externes · Trapèzes',  sets:3, reps:'15–20',    bw:15, prog:1,   rpe:9, tempo:'2·0·2', wu:false, isNew:true  },
+      { name:'Dumbbell Seated Shoulder Press', sub:'Deltoïdes · Trapèzes sup. · Triceps',              sets:5, reps:'8–10',     bw:15, prog:1,   rpe:7, tempo:'2·0·2', wu:true,  isNew:true  },
+      { name:'Cable Face Pull (rope)',         sub:'Deltoïdes post. · Rotateurs externes · Trapèzes',  sets:4, reps:'15–20',    bw:14, prog:1,   rpe:8, tempo:'2·0·2', wu:false, isNew:true  },
     ]},
     { tag:'Biceps', cls:'tbi', exos:[
-      { name:'Dumbbell Incline Curl',          sub:'Biceps · Long chef · Étirement maximal',           sets:3, reps:'10–12',    bw:10, prog:1,   rpe:9, tempo:'3·0·1', wu:false, isNew:true  },
-      { name:'EZ Barbell Curl',               sub:'Biceps · Brachial antérieur · Chef court',          sets:3, reps:'10–12',    bw:20, prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:true  },
-      { name:'Biceps Curl (haltères / câble)', sub:'Biceps · Isolation · Pic du biceps',               sets:3, reps:'12–15',    bw:12, prog:1,   rpe:9, tempo:'3·0·1', wu:false, isNew:true  },
+      { name:'Dumbbell Incline Curl',          sub:'Biceps · Long chef · Étirement maximal',           sets:4, reps:'10–12',    bw:10, prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:true  },
+      { name:'EZ Barbell Curl',               sub:'Biceps · Brachial antérieur · Chef court',          sets:4, reps:'10–12',    bw:19, prog:1,   rpe:7, tempo:'3·0·1', wu:false, isNew:true  },
+      { name:'Biceps Curl (haltères / câble)', sub:'Biceps · Isolation · Pic du biceps',               sets:4, reps:'12–15',    bw:11, prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:true  },
     ]},
     { tag:'Core', cls:'tabd', exos:[
-      { name:'Crunch câble / machine',         sub:'Droit abdominal · Obliques · Flexion directe',     sets:3, reps:'12–15',    bw:20, prog:1,   rpe:9, tempo:'2·0·3', wu:false, isNew:false },
+      { name:'Crunch câble / machine',         sub:'Droit abdominal · Obliques · Flexion directe',     sets:4, reps:'12–15',    bw:19, prog:1,   rpe:8, tempo:'2·0·3', wu:false, isNew:false },
     ]},
   ]},
   { key:'pull', label:'Pull', sublabel:'Dos · Triceps', groupes:[
     { tag:'Grand dorsal', cls:'tdos', exos:[
-      { name:'Lat Pulldown (prise large)',   sub:'Grand dorsal · Biceps · Rhomboïdes · Dentelé',  sets:4, reps:'8–10',     bw:45, prog:2.5, rpe:8, tempo:'2·0·2', wu:true,  isNew:false },
-      { name:'Seated Row (câble)',           sub:'Grand dorsal · Trapèzes · Rhomboïdes · Biceps', sets:4, reps:'8–10',     bw:40, prog:2.5, rpe:8, tempo:'2·0·2', wu:true,  isNew:false },
+      { name:'Lat Pulldown (prise large)',   sub:'Grand dorsal · Biceps · Rhomboïdes · Dentelé',  sets:5, reps:'8–10',     bw:42.5, prog:2.5, rpe:7, tempo:'2·0·2', wu:true,  isNew:false },
+      { name:'Seated Row (câble)',           sub:'Grand dorsal · Trapèzes · Rhomboïdes · Biceps', sets:5, reps:'8–10',     bw:37.5, prog:2.5, rpe:7, tempo:'2·0·2', wu:true,  isNew:false },
     ]},
     { tag:'Triceps', cls:'ttri', exos:[
-      { name:'Cable Pushdown',              sub:'Triceps · Long chef · Vaste médial',              sets:3, reps:'12–15',    bw:20, prog:1,   rpe:9, tempo:'3·0·1', wu:false, isNew:true  },
-      { name:'Cable Reverse Grip Pushdown', sub:'Triceps · Chef médial · Vaste latéral',           sets:3, reps:'12–15',    bw:15, prog:1,   rpe:9, tempo:'3·0·1', wu:false, isNew:true  },
+      { name:'Cable Pushdown',              sub:'Triceps · Long chef · Vaste médial',              sets:4, reps:'12–15',    bw:19, prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:true  },
+      { name:'Cable Reverse Grip Pushdown', sub:'Triceps · Chef médial · Vaste latéral',           sets:4, reps:'12–15',    bw:14, prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:true  },
     ]},
     { tag:'Core', cls:'tabd', exos:[
-      { name:'Planche (gainage)',           sub:'Transverse · Core profond · Anti-extension',      sets:3, reps:'30–45 sec', bw:0, prog:0,   rpe:null,tempo:'Statique', wu:false, isNew:false },
+      { name:'Planche (gainage)',           sub:'Transverse · Core profond · Anti-extension',      sets:4, reps:'30–45 sec', bw:0, prog:0,   rpe:null,tempo:'Statique', wu:false, isNew:false },
     ]},
   ]},
   { key:'legs', label:'Legs', sublabel:'Quad · Ischio · Fessiers', groupes:[
     { tag:'Composés', cls:'tcomp', exos:[
-      { name:'Leg Press 45°',               sub:'Quadriceps · Fessiers · Ischio-jambiers',         sets:4, reps:'8–10',     bw:80,  prog:2.5, rpe:8, tempo:'2·0·2', wu:true,  isNew:false },
-      { name:'Romanian Deadlift (Smith)',   sub:'Ischio-jambiers · Fessiers · Lombaires',          sets:3, reps:'10–12',    bw:40,  prog:2.5, rpe:8, tempo:'3·0·1', wu:true,  isNew:false },
+      { name:'Leg Press 45°',               sub:'Quadriceps · Fessiers · Ischio-jambiers',         sets:5, reps:'8–10',     bw:75,  prog:2.5, rpe:7, tempo:'2·0·2', wu:true,  isNew:false },
+      { name:'Romanian Deadlift (Smith)',   sub:'Ischio-jambiers · Fessiers · Lombaires',          sets:4, reps:'10–12',    bw:37.5,  prog:2.5, rpe:7, tempo:'3·0·1', wu:true,  isNew:false },
     ]},
     { tag:'Isolations', cls:'tiso', exos:[
-      { name:'Leg Extension machine',       sub:'Quadriceps · Isolation',                          sets:3, reps:'12–15',    bw:35,  prog:1,   rpe:9, tempo:'3·0·1', wu:false, isNew:false },
-      { name:'Leg Curl couché machine',     sub:'Ischio-jambiers · Biceps fémoral · Isolation',   sets:3, reps:'12–15',    bw:30,  prog:1,   rpe:9, tempo:'3·0·1', wu:false, isNew:false },
+      { name:'Leg Extension machine',       sub:'Quadriceps · Isolation',                          sets:4, reps:'12–15',    bw:32.5,  prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:false },
+      { name:'Leg Curl couché machine',     sub:'Ischio-jambiers · Biceps fémoral · Isolation',   sets:4, reps:'12–15',    bw:27.5,  prog:1,   rpe:8, tempo:'3·0·1', wu:false, isNew:false },
     ]},
     { tag:'Fessiers + Core', cls:'tfes', exos:[
-      { name:'Hip Thrust machine / haltère',sub:'Fessiers · Grand fessier · Ischio-jambiers',     sets:3, reps:'10–12',    bw:50,  prog:2.5, rpe:8, tempo:'2·0·2', wu:true,  isNew:false },
-      { name:'Ab Wheel / Relevé de jambes', sub:'Core complet · Droit abdominal · Transverse',    sets:3, reps:'12–15',    bw:0,   prog:0,   rpe:9, tempo:'2·0·3', wu:false, isNew:false },
+      { name:'Hip Thrust machine / haltère',sub:'Fessiers · Grand fessier · Ischio-jambiers',     sets:4, reps:'10–12',    bw:47.5,  prog:2.5, rpe:7, tempo:'2·0·2', wu:true,  isNew:false },
+      { name:'Ab Wheel / Relevé de jambes', sub:'Core complet · Droit abdominal · Transverse',    sets:4, reps:'12–15',    bw:0,   prog:0,   rpe:8, tempo:'2·0·3', wu:false, isNew:false },
     ]},
   ]},
 ];
@@ -372,7 +373,7 @@ function buildExList(d){
       const tgt=getTarget(d,gi);
       const tBadge=tgt?`<span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--push);background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:99px;padding:1px 8px;">🎯 ${tgt} kg</span>`:'';
       const nBadge=ex.isNew?`<span class="fix-tag">✦ nouveau</span>`:'';
-      const rpeBadge=ex.rpe?`<span class="rpe rpe${ex.rpe}">RPE ${ex.rpe} · ${ex.rpe===8?'2 reps réserve':'1 rep réserve'}</span>`:'';
+      const rpeBadge=ex.rpe?`<span class="rpe rpe${ex.rpe}">RPE ${ex.rpe} · ${10-ex.rpe} reps réserve</span>`:'';
       const tempoBadge=ex.tempo?`<span class="tempo-badge">⏱ ${ex.tempo}</span>`:'';
       const progBadge=ex.prog>0?`<span class="prog-pill">+${ex.prog}kg/prog</span>`:'';
       const wuNote=ex.wu?`<div class="wu-note">⚡ Chauffe : 50% × 8 reps → 75% × 5 reps (non comptabilisées)</div>`:'';
@@ -550,7 +551,7 @@ function updateRecap(){
 let timerIv=null, timerRem=0, timerTotal=0;
 
 function startTimer(ex, si){
-  const dur = ex.rpe===8 ? 120 : ex.rpe===9 ? 75 : 60;
+  const dur = ex.rpe===7 ? 100 : ex.rpe===8 ? 70 : 60;
   clearInterval(timerIv);
   timerTotal=dur; timerRem=dur;
 
