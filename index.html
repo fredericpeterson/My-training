@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>PPL Entretien · Smart Rabbit Fitness</title>
+<meta name="description" content="Push Pull Legs · Mode Entretien · Suivi de séries et minuteur de repos">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0e0e0d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PPL Entretien">
+<link rel="apple-touch-icon" href="ppl-icon-192.png">
+<link rel="icon" href="ppl-icon-192.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -598,6 +606,12 @@ function addTime(s){ timerRem=Math.min(timerRem+s,timerTotal+120); }
 function ar(t){t.style.height='auto';t.style.height=t.scrollHeight+'px';}
 [0,1,2].forEach(d=>{buildHeaders(d);buildExList(d);refreshDay(d);});
 updateWkLabel();
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
 </script>
 </body>
 </html>
